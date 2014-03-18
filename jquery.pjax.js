@@ -305,11 +305,17 @@ function pjax(options) {
 
     if (container.title) document.title = container.title
 
+
     fire('pjax:beforeReplace', [container.contents, options], {
       state: pjax.state,
       previousState: previousState
     })
-    context.html(container.contents)
+
+    if (options.append) {
+      context.append(container.contents)
+    } else {
+      context.html(container.contents)
+    }
 
     // FF bug: Won't autofocus fields that are inserted via JS.
     // This behavior is incorrect. So if theres no current focus, autofocus
@@ -880,7 +886,9 @@ function enable() {
     dataType: 'html',
     scrollTo: 0,
     maxCacheLength: 20,
-    version: findVersion
+    version: findVersion,
+
+    append: false
   }
   $(window).on('popstate.pjax', onPjaxPopstate)
 }
