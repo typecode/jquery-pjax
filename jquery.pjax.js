@@ -286,8 +286,13 @@ function pjax(options) {
     executeScriptTags(container.scripts)
 
     // Scroll to top by default
-    if (typeof options.scrollTo === 'number')
-      $(window).scrollTop(options.scrollTo)
+    if (typeof options.scrollTo === 'number'){
+      if(options.scrollTarget){
+        options.scrollTarget.scrollTop(options.scrollTo)
+      } else {
+        $(window).scrollTop(options.scrollTo)
+      }
+    }
 
     // If the URL has a hash in it, make sure the browser
     // knows to navigate to the hash.
@@ -798,6 +803,7 @@ function enable() {
     type: 'GET',
     dataType: 'html',
     scrollTo: 0,
+    scrollTarget: null,
     maxCacheLength: 20,
     version: findVersion,
 
