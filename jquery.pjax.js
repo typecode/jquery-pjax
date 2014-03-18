@@ -338,7 +338,13 @@ function pjax(options) {
       if (target) scrollTo = $(target).offset().top
     }
 
-    if (typeof scrollTo == 'number') $(window).scrollTop(scrollTo)
+    if (typeof scrollTo === 'number'){
+      if(options.scrollTarget){
+        options.scrollTarget.scrollTop(scrollTo)
+      } else {
+        $(window).scrollTop(scrollTo)
+      }
+    }
 
     fire('pjax:success', [data, status, xhr, options])
   }
@@ -885,6 +891,7 @@ function enable() {
     type: 'GET',
     dataType: 'html',
     scrollTo: 0,
+    scrollTarget: null,
     maxCacheLength: 20,
     version: findVersion,
 
